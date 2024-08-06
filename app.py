@@ -16,6 +16,17 @@ def get_data():
     }
     return jsonify(data)
 
+@app.route('/api/projects')
+def githube_projects():
+    link = 'https://api.github.com/users/rolandiartmeladze/repos'
+    response = requests.get(link)
+    if response.status_code == 200:
+        data = response.json()
+        return jsonify(data)
+    else:
+        return jsonify({"error":"not working"}), response.status_code
+
+
 @app.route('/api/profile')
 def info_from_github():
     url = "https://api.github.com/users/rolandiartmeladze"
