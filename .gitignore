@@ -43,3 +43,4 @@ coverage.xml
 mypy.ini
 .dmypy.json
 .dmypy.json
+.vercel
