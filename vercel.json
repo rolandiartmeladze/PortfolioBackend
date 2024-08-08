@@ -2,15 +2,17 @@
     "version": 2,
     "builds": [
       {
-        "src": "PortfoliBackend/wsgi.py",
-        "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb" }
+        "src": "start.sh",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "public"
+        }
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "PortfoliBackend/wsgi.py"
+        "dest": "/start.sh"
       }
     ]
   }
