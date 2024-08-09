@@ -1,3 +1,4 @@
+# models.py
 from django.db import models
 
 class BlogPost(models.Model):
@@ -8,3 +9,11 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return self.title
+
+class PostForm(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+
+    def __str__(self):
+        return self.name

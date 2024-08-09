@@ -27,7 +27,7 @@ DEBUG = True
 
 # ALLOWED_HOSTS = ['*.vercel.app']
 ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['portfolio-backend-151yx5eav-roland-artmeladzes-projects.vercel.app', 'localhost']
+# ALLOWED_HOSTS = ['portfolio-backend-151yx5eav-roland-artmeladzes-projects.vercel.app', 'localhost']
 
 
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'blog',
 ]
@@ -52,9 +53,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'PortfolioBackend.urls'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
