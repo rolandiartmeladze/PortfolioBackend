@@ -6,10 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{% url 'my-form-view' post.id %}" method="post">
+    <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit Comment</button>
+        <input type="text" name="title" placeholder="Title">
+        <textarea name="content" placeholder="Content"></textarea>
+        <button type="submit">Add Post</button>
     </form>
     
 </body>

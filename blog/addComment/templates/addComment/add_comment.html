@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        ul{
+            list-style: none;
+        }
+
+        li{
+            background-color: gray;
+            margin: 4px;
+
+        }
+    </style>
+    <title>Post Details</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('http://127.0.0.1:8000/api/posts/')
+                .then(response => response.json())
+                .then(data => {
+                    const postsContainer = document.getElementById('posts-container');
+                    data.forEach(post => {
+                        const postElement = document.createElement('li');
+                        postElement.innerHTML = `
+                            <h2> Post_id: ${post.id}</h2>
+
+                                <h4>
+                                   Title: ${post.title}
+                                    </h4>
+
+                                    <p>
+                                      Content: ${post.title}
+                                        </p>
+                            <form method="post" action="/api/add-comment/">
+                                <input type="hidden" name="post_id" value="${post.id}">
+                                {% csrf_token %}
+                                <input type="text" name="name" placeholder="Your Name" required>
+                                <input type="email" name="email" placeholder="Your Email" required>
+                                <textarea name="content" placeholder="Your Comment" required></textarea>
+                                <button type="submit">Add Comment</button>
+                            </form>
+                        `;
+                        postsContainer.appendChild(postElement);
+                    });
+                })
+                .catch(error => console.error('Error fetching posts:', error));
+        });
+    </script>
+</head>
+<body>
+    <ul id="posts-container">
+        <!-- Posts will be dynamically inserted here -->
+    </ul>
+</body>
+</html>

@@ -1,10 +1,14 @@
-# views.py
 from rest_framework import viewsets
 from django.shortcuts import render
 from django.http import JsonResponse
 from .models import BlogPost, PostForm
-from .serializers import BlogPostSerializer, PostFormSerialiZer
+from .serializers import BlogPostSerializer, PostFormSerializer
 from .forms import MyForm
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+
 
 class BlogPostViewSet(viewsets.ModelViewSet):
     queryset = BlogPost.objects.all()
@@ -12,7 +16,7 @@ class BlogPostViewSet(viewsets.ModelViewSet):
 
 class PostFormViewSet(viewsets.ModelViewSet):
     queryset = PostForm.objects.all()
-    serializer_class = PostFormSerialiZer
+    serializer_class = PostFormSerializer
 
 def my_form_view(request):
     if request.method == 'POST':
@@ -25,3 +29,13 @@ def my_form_view(request):
     else:
         form = MyForm()
     return render(request, 'form_template.html', {'form': form})
+
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'posts': reverse('blogpost-list', request=request, format=format),
+        'forms': reverse('postform-list', request=request, format=format),
+        'add_post': reverse('add_post', request=request, format=format),
+        'add_comment': reverse('add_comment', args=[1], request=request, format=format),
+    })
