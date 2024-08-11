@@ -7,9 +7,9 @@
 
 
 ### Features
-Django REST Framework: Enables API creation for data handling.
-Data Handling: Supports data input, retrieval, and management from a frontend application.
-Admin Panel: Provides an interface for managing database records directly.
+Django REST Framework: Enables API creation for data handling. <br />
+Data Handling: Supports data input, retrieval, and management from a frontend application. <br />
+Admin Panel: Provides an interface for managing database records directly. <br />
 Installation
 Follow these steps to set up the project on your local machine:
 
@@ -18,7 +18,7 @@ git clone [https://[(https://github.com/rolandiartmeladze/PortfolioBackend.git)]
 cd PortfolioBackend<br />
 Create and Activate Virtual Environment:
 
-python -m venv env <br />
+python -m venv env <br /> 
 source env/bin/activate  
 
 # Install Dependencies:
@@ -43,9 +43,9 @@ The server will be available at http://127.0.0.1:8000/.
 ## API Endpoints
 ### The project provides the following REST API endpoints:
 
-GET/POST /api/posts/: Retrieve a list of all records.
-POST/GET /api/comments//: Create a new record.
-GET /admin/: Retrieve a specific record by its ID. user: admin  Pass:admin
+GET/POST /api/posts/: Retrieve a list of all records. <br />
+POST/GET /api/comments//: Create a new record. <br />
+GET /admin/: Retrieve a specific record by its ID. user: admin  Pass:admin <br />
 
 ## Admin Panel
 Access the admin panel at http://127.0.0.1:8000/admin/ to manage the database using the credentials you set up earlier.
