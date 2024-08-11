@@ -13,14 +13,15 @@ Admin Panel: Provides an interface for managing database records directly.
 Installation
 Follow these steps to set up the project on your local machine:
 
-#Clone the Repository:
-git clone [https://github.com/yourusername/projectname.git](https://github.com/rolandiartmeladze/PortfolioBackend.git)
+# Clone the Repository:
+git clone [https://[(https://github.com/rolandiartmeladze/PortfolioBackend.git)]](https://github.com/rolandiartmeladze/PortfolioBackend.git)
 cd PortfolioBackend
 Create and Activate Virtual Environment:
 
 python -m venv env
-source env/bin/activate   
-Install Dependencies:
+source env/bin/activate  
+
+# Install Dependencies:
 
 pip install -r requirements.txt
 
