@@ -16,7 +16,8 @@ Follow these steps to set up the project on your local machine:
 ### Clone the Repository:
 git clone [https://[(https://github.com/rolandiartmeladze/PortfolioBackend.git)]](https://github.com/rolandiartmeladze/PortfolioBackend.git) <br />
 cd PortfolioBackend<br />
-Create and Activate Virtual Environment:
+
+##Create and Activate Virtual Environment:
 
 python -m venv env <br /> 
 source env/bin/activate  
