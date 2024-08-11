@@ -18,7 +18,7 @@ git clone [https://[(https://github.com/rolandiartmeladze/PortfolioBackend.git)]
 cd PortfolioBackend<br />
 Create and Activate Virtual Environment:
 
-python -m venv env
+python -m venv env <br />
 source env/bin/activate  
 
 # Install Dependencies:
@@ -27,20 +27,21 @@ pip install -r requirements.txt
 
 ## Set Up the Database:
 
-Run the following commands to apply migrations:
+### Run the following commands to apply migrations:
 
-python manage.py migrate
-If necessary, create a superuser for the admin panel:
+python manage.py migrate <br />
+
+### If necessary, create a superuser for the admin panel:
 
 python manage.py createsuperuser
 
 ## Run the Development Server:
 
-python manage.py runserver
+python manage.py runserver <br />
 The server will be available at http://127.0.0.1:8000/.
 
-API Endpoints
-The project provides the following REST API endpoints:
+## API Endpoints
+### The project provides the following REST API endpoints:
 
 GET/POST /api/posts/: Retrieve a list of all records.
 POST/GET /api/comments//: Create a new record.
