@@ -1,6 +1,6 @@
 # serializers.py
 from rest_framework import serializers
-from .models import Posts, Comment
+from .models import Posts, Comment, UserProfile
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -25,3 +25,9 @@ class PostsSerializer(serializers.ModelSerializer):
         
         return post
 
+
+class UserProlileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserProfile
+        filds = ['posts', 'user', 'profile_picture', 'relatedPosts', 'bio', 'location', 'birth_date']

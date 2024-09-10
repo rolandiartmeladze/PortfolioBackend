@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Posts, Comment
-from .serializers import PostsSerializer, CommentSerializer
+from .models import Posts, Comment, UserProfile
+from .serializers import PostsSerializer, CommentSerializer, UserProlileSerializer
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -21,5 +21,9 @@ class PostsViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+class UsersProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProlileSerializer
 
 

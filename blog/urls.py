@@ -21,13 +21,14 @@
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import  PostsViewSet, CommentViewSet
+from .views import  PostsViewSet, CommentViewSet, UsersProfileViewSet
 # from blog.newPost.views import add_post
 # from blog.addComment.views import add_comment
 
 router = DefaultRouter()
 router.register(r'posts', PostsViewSet)
 router.register(r'comments', CommentViewSet)
+router.register(r'users', UsersProfileViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),  
