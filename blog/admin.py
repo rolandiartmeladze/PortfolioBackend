@@ -1,6 +1,7 @@
+from .models import Posts, Comment
+# from django.contrib.auth.models import User
 from django.contrib import admin
-from .models import Posts, Comment, UserProfile
+
 
 admin.site.register(Posts)
 admin.site.register(Comment)
-admin.site.register(UserProfile)
