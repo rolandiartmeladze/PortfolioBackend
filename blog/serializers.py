@@ -1,10 +1,9 @@
-# serializers.py
 from rest_framework import serializers
 from .models import Posts, Comment
-import base64
-from django.core.files.base import ContentFile
-from django.contrib.auth.models import User
-from django.contrib.auth.password_validation import validate_password
+# import base64
+# from django.core.files.base import ContentFile
+# from django.contrib.auth.models import User
+# from django.contrib.auth.password_validation import validate_password
   
 from io import BytesIO
 from PIL import Image
@@ -26,10 +25,7 @@ class PostsSerializer(serializers.ModelSerializer):
         fields = ['post_id', 'name', 'owner', 'title', 'post', 'email', 'created_at', 'updated_at', 'comment_count', 'views', 'share_count', 'comments']
 
     def create(self, validated_data):
-        
         post = Posts.objects.create(**validated_data)
-        
-        
         post.comments.set([]) 
         
         return post
@@ -75,40 +71,40 @@ class PostsSerializer(serializers.ModelSerializer):
 #         file = ContentFile(img_data, file_name)
 #         return file
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True)
-    is_superuser = serializers.BooleanField(default=False, write_only=True)  # New field for superuser creation
+# class UserRegistrationSerializer(serializers.ModelSerializer):
+#     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+#     password2 = serializers.CharField(write_only=True, required=True)
+#     is_superuser = serializers.BooleanField(default=False, write_only=True)  # New field for superuser creation
 
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password', 'password2', 'is_superuser']  # Include is_superuser
+#     class Meta:
+#         model = User
+#         fields = ['username', 'email', 'password', 'password2', 'is_superuser']  # Include is_superuser
 
-    def validate(self, attrs):
-        # Ensure that password and password2 match
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "Passwords do not match."})
-        return attrs
+#     def validate(self, attrs):
+#         # Ensure that password and password2 match
+#         if attrs['password'] != attrs['password2']:
+#             raise serializers.ValidationError({"password": "Passwords do not match."})
+#         return attrs
 
-    def create(self, validated_data):
-        # Remove password2 from validated_data as it's not needed
-        validated_data.pop('password2')
+#     def create(self, validated_data):
+#         # Remove password2 from validated_data as it's not needed
+#         validated_data.pop('password2')
 
-        # Check if we want to create a superuser
-        is_superuser = validated_data.pop('is_superuser', False)
+#         # Check if we want to create a superuser
+#         is_superuser = validated_data.pop('is_superuser', False)
 
-        # Create a superuser or a regular user depending on the flag
-        if is_superuser:
-            user = User.objects.create_superuser(
-                username=validated_data['username'],
-                email=validated_data['email'],
-                password=validated_data['password']
-            )
-        else:
-            user = User.objects.create_user(
-                username=validated_data['username'],
-                email=validated_data['email'],
-                password=validated_data['password']
-            )
+#         # Create a superuser or a regular user depending on the flag
+#         if is_superuser:
+#             user = User.objects.create_superuser(
+#                 username=validated_data['username'],
+#                 email=validated_data['email'],
+#                 password=validated_data['password']
+#             )
+#         else:
+#             user = User.objects.create_user(
+#                 username=validated_data['username'],
+#                 email=validated_data['email'],
+#                 password=validated_data['password']
+#             )
         
-        return user
+#         return user
