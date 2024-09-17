@@ -1,15 +1,18 @@
 from django.db import models
-# from django.db.models import F
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-# from django.contrib.auth.models import User  
+from django.contrib.auth.models import User
+
+
+def get_all_users():
+    return User.objects.all()
 
 class Posts(models.Model):
-
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
     post_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     owner = models.CharField(max_length=100)
-    title = models.CharField(max_length=200)
     post = models.TextField()
     email = models.EmailField()
 
@@ -26,7 +29,7 @@ class Posts(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Posts, related_name='comments', on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=50)
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
