@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from django.contrib.auth import authenticate
+
 from .models import Posts, Comment
 from django.contrib.auth.models import User
 
@@ -6,6 +8,25 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['post', 'name', 'comment', 'created_at']
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(write_only=True, required=True)
+
+    def validate(self, data):
+        username = data.get("username")
+        password = data.get("password")
+        
+        if username and password:
+            user = authenticate(username=username, password=password)
+            if not user:
+                raise serializers.ValidationError("Invalid username or password")
+        else:
+            raise serializers.ValidationError("Must include both username and password")
+        
+        data['user'] = user
+        return data
 
 
 class RegisterSerializer(serializers.ModelSerializer):

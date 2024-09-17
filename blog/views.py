@@ -6,8 +6,23 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Posts, Comment
-from .serializers import PostsSerializer, CommentSerializer, UserSerializer, RegisterSerializer
+from .serializers import PostsSerializer, CommentSerializer, UserSerializer, RegisterSerializer, LoginSerializer
+from django.contrib.auth import login
 from django.contrib.auth.models import User
+
+
+class LoginView(APIView):
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
+            token, created = Token.objects.get_or_create(user=user)
+            login(request, user)
+            return Response({
+                "message": "Login successful",
+                "token": token.key
+            }, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogoutView(APIView):
@@ -52,3 +67,5 @@ class CustomAuthToken(ObtainAuthToken):
             'user_id': user.pk,
             'email': user.email
         })
+
+
