@@ -1,3 +1,4 @@
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 
@@ -9,6 +10,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['post', 'name', 'comment', 'created_at']
 
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True, required=True)
@@ -16,18 +18,23 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, data):
         username = data.get("username")
         password = data.get("password")
-        
+
+        # Authenticate user
         if username and password:
             user = authenticate(username=username, password=password)
             if not user:
                 raise serializers.ValidationError("Invalid username or password")
         else:
             raise serializers.ValidationError("Must include both username and password")
-        
-        data['user'] = user
-        return data
-    
-    
+
+        refresh = RefreshToken.for_user(user)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'username': user.username,
+            'email': user.email  
+        }
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)

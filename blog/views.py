@@ -17,16 +17,11 @@ from django.contrib.auth.models import User
 logger = logging.getLogger(__name__)
 
 class LoginView(APIView):
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.validated_data['user']
-            token, _ = Token.objects.get_or_create(user=user)
-            logger.info(f"User {user.username} authenticated successfully.")
-            return Response({"token": token.key}, status=status.HTTP_200_OK)
-        else:
-            logger.error(f"Login failed: {serializer.errors}")
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
 class LogoutView(APIView):
