@@ -9,7 +9,6 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['post', 'name', 'comment', 'created_at']
 
-
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True, required=True)
@@ -27,8 +26,8 @@ class LoginSerializer(serializers.Serializer):
         
         data['user'] = user
         return data
-
-
+    
+    
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
@@ -55,14 +54,18 @@ class PostsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Posts
-        fields = ['post_id', 'name', 'owner', 'title', 'post', 'email', 'created_at', 'updated_at', 'comment_count', 'views', 'share_count', 'comments']
+        fields = ['post_id', 'author', 'name', 'owner', 'title', 'post', 'email', 'created_at', 'updated_at', 'comment_count', 'views', 'share_count', 'comments']
+        read_only_fields = ['author', 'comment_count', 'views', 'share_count', 'created_at', 'updated_at']
 
     def create(self, validated_data):
         request = self.context.get('request')
 
+        # Check if user is authenticated
         if not request or not request.user.is_authenticated:
             raise serializers.ValidationError('User must be authenticated to create a post.')
 
+        validated_data['author'] = request.user
+        
         return Posts.objects.create(**validated_data)
 
 class UserSerializer(serializers.ModelSerializer):

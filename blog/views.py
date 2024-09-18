@@ -1,29 +1,33 @@
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import viewsets, status
+import logging
+from rest_framework.permissions import IsAuthenticatedOrReadOnly , IsAuthenticated
+from rest_framework import views, viewsets, status, serializers, permissions
 from django.shortcuts import render
-from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.views import ObtainAuthToken, APIView
 from rest_framework.authtoken.models import Token
-from rest_framework.views import APIView
+
 from rest_framework.response import Response
+from django.contrib.auth import authenticate, login
+
 from .models import Posts, Comment
 from .serializers import PostsSerializer, CommentSerializer, UserSerializer, RegisterSerializer, LoginSerializer
-from django.contrib.auth import login
 from django.contrib.auth.models import User
 
 
+
+logger = logging.getLogger(__name__)
+
 class LoginView(APIView):
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.validated_data['user']
-            token, created = Token.objects.get_or_create(user=user)
-            login(request, user)
-            return Response({
-                "message": "Login successful",
-                "token": token.key
-            }, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+            token, _ = Token.objects.get_or_create(user=user)
+            logger.info(f"User {user.username} authenticated successfully.")
+            return Response({"token": token.key}, status=status.HTTP_200_OK)
+        else:
+            logger.error(f"Login failed: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
@@ -49,7 +53,9 @@ class UserViewset(viewsets.ModelViewSet):
 class PostsViewSet(viewsets.ModelViewSet):
     queryset = Posts.objects.all()
     serializer_class = PostsSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    # permission_classes = [IsAuthenticated]
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import User
@@ -25,6 +26,22 @@ class Posts(models.Model):
 
     def __str__(self):
         return self.title
+
+    # Method should be indented within the class
+    def increment_views(self):
+        self.views = F('views') + 1
+        self.save(update_fields=['views'])
+        self.refresh_from_db()
+
+    def increment_comment_count(self):
+        self.comment_count = F('comment_count') + 1
+        self.save(update_fields=['comment_count'])
+        self.refresh_from_db()
+
+    def increment_share_count(self):
+        self.share_count = F('share_count') + 1
+        self.save(update_fields=['share_count'])
+        self.refresh_from_db()
 
 
 class Comment(models.Model):
