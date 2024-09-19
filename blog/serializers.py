@@ -32,7 +32,9 @@ class LoginSerializer(serializers.Serializer):
             'refresh': str(refresh),
             'access': str(refresh.access_token),
             'username': user.username,
-            'email': user.email  
+            'email': user.email,
+            'lastname':user.last_name,
+            'firstname': user.first_name
         }
 
 class RegisterSerializer(serializers.ModelSerializer):
