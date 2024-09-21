@@ -1,7 +1,6 @@
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-
 from .models import Posts, Comment
 from django.contrib.auth.models import User
 
@@ -11,31 +10,50 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['post', 'name', 'comment', 'created_at']
 
 
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True, required=True)
 
     def validate(self, data):
-        username = data.get("username")
-        password = data.get("password")
+        username = data.get('username')
+        password = data.get('password')
 
-        # Authenticate user
         if username and password:
             user = authenticate(username=username, password=password)
-            if not user:
+            if user is None:
                 raise serializers.ValidationError("Invalid username or password")
         else:
             raise serializers.ValidationError("Must include both username and password")
 
-        refresh = RefreshToken.for_user(user)
-        return {
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-            'username': user.username,
-            'email': user.email,
-            'lastname':user.last_name,
-            'firstname': user.first_name
-        }
+        return data  
+
+
+
+# class LoginSerializer(serializers.Serializer):
+#     username = serializers.CharField(required=True)
+#     password = serializers.CharField(write_only=True, required=True)
+
+#     def validate(self, data):
+#         username = data.get('username')
+#         password = data.get('password')
+
+#         if username and password:
+#             user = authenticate(username=username, password=password)
+#             if not user:
+#                 raise serializers.ValidationError("Invalid username or password")
+#         else:
+#             raise serializers.ValidationError("Must include both username and password")
+
+#         refresh = RefreshToken.for_user(user)
+#         return {
+#             'refresh': str(refresh),
+#             'access': str(refresh.access_token),
+#             'username': user.username,
+#             'email': user.email,
+#             'lastname': user.last_name,
+#             'firstname': user.first_name
+#         }
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -43,7 +61,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'password2']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password', 'password2']
 
     def validate(self, data):
         if data['password'] != data['password2']:
