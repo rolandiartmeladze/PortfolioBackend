@@ -16,6 +16,7 @@ from .models import Posts, Comment
 from .serializers import PostsSerializer, CommentSerializer, UserSerializer, RegisterSerializer, LoginSerializer
 from django.contrib.auth.models import User
 
+from django.contrib.auth.decorators import login_required
 
 
 logger = logging.getLogger(__name__)
@@ -139,3 +140,16 @@ class CommentViewSet(viewsets.ModelViewSet):
 #         }, status=status.HTTP_200_OK)
 
 
+
+
+
+@login_required
+def profile_view(request):
+    user = request.user
+    context = {
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        # Add other fields if needed
+    }
+    return render(request, 'profile.html', context)
