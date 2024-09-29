@@ -41,6 +41,7 @@ class LoginView(APIView):
                     'email': user.email,
                     'lastname': user.last_name,
                     'firstname': user.first_name,
+                    'id': user.id,
                 }, status=status.HTTP_200_OK)
             else:
                 logger.warning("Authentication failed: Invalid credentials.")
@@ -61,15 +62,18 @@ class LogoutView(APIView):
 
     def post(self, request):
         try:
-            token = Token.objects.get(user=request.user)
-            token.delete()  # Delete the token to log out
-            return Response({"detail": "Successfully logged out."}, status=status.HTTP_200_OK)
-        except Token.DoesNotExist:
-            return Response({"detail": "Token does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+            # Blacklist the refresh token
+            refresh_token = request.data.get("refresh")
+            if refresh_token:
+                token = RefreshToken(refresh_token)
+                token.blacklist()
+                return Response({"detail": "Successfully logged out."}, status=status.HTTP_200_OK)
+            else:
+                return Response({"detail": "Refresh token is required."}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
+        
+        
 
 # class LoginView(APIView):
 #     def post(self, request):
@@ -150,6 +154,7 @@ def profile_view(request):
         'email': user.email,
         'first_name': user.first_name,
         'last_name': user.last_name,
+        'id': user.id,
         # Add other fields if needed
     }
     return render(request, 'profile.html', context)
