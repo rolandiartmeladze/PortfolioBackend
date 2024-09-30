@@ -2,16 +2,32 @@
 
 ## Project Overview
 <p>
-  This Django backend project provides an API for interacting with a database using the Django REST framework. It supports creating, reading, updating, and deleting (CRUD) operations through the API and offers an admin panel for managing the database.
+
+  This repository contains the backend API for a personal portfolio and blog application. It is built using **Django** and **Django REST Framework**, providing endpoints for managing blog posts, comments, and user interactions.
 </p>
 
 
-### Features
-Django REST Framework: Enables API creation for data handling. <br />
-Data Handling: Supports data input, retrieval, and management from a frontend application. <br />
-Admin Panel: Provides an interface for managing database records directly. <br />
-Installation
-Follow these steps to set up the project on your local machine:
+## Features
+
+- **CRUD Operations**: Create, Read, Update, and Delete blog posts and comments.
+- **Django Admin Panel**: Manage posts and comments through a user-friendly interface.
+- **REST API**: Provides endpoints for frontend to interact with the database.
+- **User Authentication**: Optional feature for managing post and comment creation.
+
+## Technologies Used
+
+- **Python**: The programming language used for backend logic.
+- **Django**: A high-level Python web framework for rapid development.
+- **Django REST Framework**: For creating RESTful APIs to serve the frontend.
+- **SQLite**: Local development database (can be switched to PostgreSQL for production).
+
+
+### Prerequisites
+
+- **Python 3.x**: Download from [https://www.python.org/](https://www.python.org/)
+- **pip**: Python package installer, installed with Python.
+  
+
 
 ### Clone the Repository:
 git clone [https://[(https://github.com/rolandiartmeladze/PortfolioBackend.git)]](https://github.com/rolandiartmeladze/PortfolioBackend.git) <br />
